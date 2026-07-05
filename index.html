@@ -1,0 +1,234 @@
+---
+layout: default
+---
+
+<!-- ============ 1. 표지 ============ -->
+<section class="cover">
+  <p class="cover__label reveal">WEDDING INVITATION</p>
+
+  <!-- 메인 사진 자리 -->
+  <div class="photo-placeholder photo-placeholder--main reveal" role="img" aria-label="메인 웨딩 사진 자리">
+    <span class="photo-placeholder__icon">&#10047;</span>
+    <span class="photo-placeholder__text">메인 사진</span>
+  </div>
+
+  <h1 class="cover__names reveal">
+    {{ site.groom.name }}
+    <span class="cover__amp">&hearts;</span>
+    {{ site.bride.name }}
+  </h1>
+
+  <div class="ornament reveal"><span>&#10022;</span></div>
+
+  <p class="cover__date reveal">{{ site.wedding.date_short }}</p>
+  <p class="cover__venue reveal">{{ site.venue.name }} {{ site.venue.hall }}</p>
+</section>
+
+<!-- ============ 2. 인사말 ============ -->
+<section class="section">
+  <p class="section__eyebrow reveal">INVITATION</p>
+  <h2 class="section__title reveal">소중한 분들을 초대합니다</h2>
+  <div class="ornament reveal"><span>&#10047;</span></div>
+
+  <p class="greeting reveal">{{ site.greeting | newline_to_br }}</p>
+
+  <div class="parents reveal">
+    <p class="parents__line">
+      <span class="parents__names">{{ site.groom.father.name }} · {{ site.groom.mother.name }}</span>
+      <span class="parents__relation">의 {{ site.groom.relation }}</span>
+      <strong class="parents__person">{{ site.groom.name }}</strong>
+    </p>
+    <p class="parents__line">
+      <span class="parents__names">{{ site.bride.father.name }} · {{ site.bride.mother.name }}</span>
+      <span class="parents__relation">의 {{ site.bride.relation }}</span>
+      <strong class="parents__person">{{ site.bride.name }}</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ============ 3. 연락처 ============ -->
+<section class="section section--tinted">
+  <p class="section__eyebrow reveal">CONTACT</p>
+  <h2 class="section__title reveal">연락하기</h2>
+
+  <div class="contact-grid reveal">
+    <div class="contact-card">
+      <p class="contact-card__role">신랑</p>
+      <p class="contact-card__name">{{ site.groom.name }}</p>
+      <div class="contact-card__actions">
+        <a href="tel:{{ site.groom.phone }}" aria-label="신랑에게 전화">&#9742; 전화</a>
+        <a href="sms:{{ site.groom.phone }}" aria-label="신랑에게 문자">&#9993; 문자</a>
+      </div>
+    </div>
+    <div class="contact-card">
+      <p class="contact-card__role">신부</p>
+      <p class="contact-card__name">{{ site.bride.name }}</p>
+      <div class="contact-card__actions">
+        <a href="tel:{{ site.bride.phone }}" aria-label="신부에게 전화">&#9742; 전화</a>
+        <a href="sms:{{ site.bride.phone }}" aria-label="신부에게 문자">&#9993; 문자</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-grid contact-grid--parents reveal">
+    <div class="contact-card contact-card--small">
+      <p class="contact-card__role">신랑 아버지</p>
+      <p class="contact-card__name">{{ site.groom.father.name }}</p>
+      <div class="contact-card__actions">
+        <a href="tel:{{ site.groom.father.phone }}">&#9742;</a>
+        <a href="sms:{{ site.groom.father.phone }}">&#9993;</a>
+      </div>
+    </div>
+    <div class="contact-card contact-card--small">
+      <p class="contact-card__role">신랑 어머니</p>
+      <p class="contact-card__name">{{ site.groom.mother.name }}</p>
+      <div class="contact-card__actions">
+        <a href="tel:{{ site.groom.mother.phone }}">&#9742;</a>
+        <a href="sms:{{ site.groom.mother.phone }}">&#9993;</a>
+      </div>
+    </div>
+    <div class="contact-card contact-card--small">
+      <p class="contact-card__role">신부 아버지</p>
+      <p class="contact-card__name">{{ site.bride.father.name }}</p>
+      <div class="contact-card__actions">
+        <a href="tel:{{ site.bride.father.phone }}">&#9742;</a>
+        <a href="sms:{{ site.bride.father.phone }}">&#9993;</a>
+      </div>
+    </div>
+    <div class="contact-card contact-card--small">
+      <p class="contact-card__role">신부 어머니</p>
+      <p class="contact-card__name">{{ site.bride.mother.name }}</p>
+      <div class="contact-card__actions">
+        <a href="tel:{{ site.bride.mother.phone }}">&#9742;</a>
+        <a href="sms:{{ site.bride.mother.phone }}">&#9993;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. 예식 안내 (달력 + D-day) ============ -->
+<section class="section">
+  <p class="section__eyebrow reveal">SAVE THE DATE</p>
+  <h2 class="section__title reveal">예식 안내</h2>
+  <div class="ornament reveal"><span>&#10047;</span></div>
+
+  <p class="wedding-date reveal">{{ site.wedding.date_display }}</p>
+  <p class="wedding-venue reveal">{{ site.venue.name }} {{ site.venue.hall }}</p>
+
+  <!-- 달력 (JS가 렌더링) -->
+  <div class="calendar reveal" id="calendar" aria-label="예식일 달력"></div>
+
+  <!-- D-day 카운트다운 -->
+  <div class="countdown reveal" id="countdown">
+    <div class="countdown__item"><span class="countdown__num" id="cd-days">0</span><span class="countdown__label">DAYS</span></div>
+    <div class="countdown__item"><span class="countdown__num" id="cd-hours">0</span><span class="countdown__label">HOUR</span></div>
+    <div class="countdown__item"><span class="countdown__num" id="cd-mins">0</span><span class="countdown__label">MIN</span></div>
+    <div class="countdown__item"><span class="countdown__num" id="cd-secs">0</span><span class="countdown__label">SEC</span></div>
+  </div>
+  <p class="countdown__message reveal" id="cd-message"></p>
+</section>
+
+<!-- ============ 5. 갤러리 ============ -->
+<section class="section section--tinted">
+  <p class="section__eyebrow reveal">GALLERY</p>
+  <h2 class="section__title reveal">우리의 순간들</h2>
+  <div class="ornament reveal"><span>&#10047;</span></div>
+
+  <div class="gallery reveal">
+    {% for i in (1..6) %}
+    <div class="photo-placeholder photo-placeholder--gallery" role="img" aria-label="갤러리 사진 {{ i }} 자리">
+      <span class="photo-placeholder__icon">&#10047;</span>
+      <span class="photo-placeholder__text">사진 {{ i }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ============ 6. 오시는 길 ============ -->
+<section class="section">
+  <p class="section__eyebrow reveal">LOCATION</p>
+  <h2 class="section__title reveal">오시는 길</h2>
+  <div class="ornament reveal"><span>&#10047;</span></div>
+
+  <p class="venue-name reveal">{{ site.venue.name }} {{ site.venue.hall }}</p>
+  <p class="venue-address reveal">{{ site.venue.address }}</p>
+  <p class="venue-tel reveal"><a href="tel:{{ site.venue.tel }}">Tel. {{ site.venue.tel }}</a></p>
+
+  <!-- 지도 자리 -->
+  <div class="photo-placeholder photo-placeholder--map reveal" role="img" aria-label="약도 이미지 자리">
+    <span class="photo-placeholder__icon">&#9906;</span>
+    <span class="photo-placeholder__text">약도 이미지</span>
+  </div>
+
+  <div class="map-buttons reveal">
+    <a class="btn btn--outline" href="{{ site.venue.naver_map }}" target="_blank" rel="noopener">네이버 지도</a>
+    <a class="btn btn--outline" href="{{ site.venue.kakao_map }}" target="_blank" rel="noopener">카카오맵</a>
+  </div>
+
+  <dl class="transport reveal">
+    <div class="transport__row">
+      <dt>지하철</dt>
+      <dd>{{ site.venue.subway }}</dd>
+    </div>
+    <div class="transport__row">
+      <dt>버스</dt>
+      <dd>{{ site.venue.bus }}</dd>
+    </div>
+    <div class="transport__row">
+      <dt>주차</dt>
+      <dd>{{ site.venue.parking }}</dd>
+    </div>
+  </dl>
+</section>
+
+<!-- ============ 7. 마음 전하실 곳 ============ -->
+<section class="section section--tinted">
+  <p class="section__eyebrow reveal">ACCOUNT</p>
+  <h2 class="section__title reveal">마음 전하실 곳</h2>
+  <p class="account-note reveal">참석이 어려우신 분들을 위해<br>계좌번호를 안내드립니다.</p>
+
+  <div class="accordion reveal">
+    <button class="accordion__header" type="button" aria-expanded="false">
+      신랑측 계좌번호 <span class="accordion__arrow">&#9662;</span>
+    </button>
+    <div class="accordion__body">
+      {% for acc in site.accounts.groom %}
+      <div class="account-row">
+        <div class="account-row__info">
+          <p class="account-row__holder">{{ acc.holder }}</p>
+          <p class="account-row__number">{{ acc.bank }} {{ acc.number }}</p>
+        </div>
+        <button class="btn btn--copy" type="button" data-copy="{{ acc.bank }} {{ acc.number }}">복사</button>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="accordion reveal">
+    <button class="accordion__header" type="button" aria-expanded="false">
+      신부측 계좌번호 <span class="accordion__arrow">&#9662;</span>
+    </button>
+    <div class="accordion__body">
+      {% for acc in site.accounts.bride %}
+      <div class="account-row">
+        <div class="account-row__info">
+          <p class="account-row__holder">{{ acc.holder }}</p>
+          <p class="account-row__number">{{ acc.bank }} {{ acc.number }}</p>
+        </div>
+        <button class="btn btn--copy" type="button" data-copy="{{ acc.bank }} {{ acc.number }}">복사</button>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. 마무리 ============ -->
+<footer class="closing">
+  <div class="ornament reveal"><span>&#10022;</span></div>
+  <p class="closing__thanks reveal">THANK YOU</p>
+  <p class="closing__names reveal">{{ site.groom.name }} &hearts; {{ site.bride.name }}</p>
+  <button class="btn btn--outline reveal" type="button" id="share-link">청첩장 링크 복사하기</button>
+</footer>
+
+<!-- 복사 완료 토스트 -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>

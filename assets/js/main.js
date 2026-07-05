@@ -1,0 +1,156 @@
+/* ============================================================
+   모바일 청첩장 스크립트
+   - 달력 렌더링, D-day 카운트다운, 계좌 복사, 아코디언, 스크롤 애니메이션
+   ============================================================ */
+
+(function () {
+  'use strict';
+
+  var weddingDate = new Date(document.body.dataset.weddingDate);
+
+  /* ---------- 달력 ---------- */
+  function renderCalendar() {
+    var el = document.getElementById('calendar');
+    if (!el || isNaN(weddingDate)) return;
+
+    var year = weddingDate.getFullYear();
+    var month = weddingDate.getMonth(); // 0-based
+    var weddingDay = weddingDate.getDate();
+    var firstDow = new Date(year, month, 1).getDay();
+    var lastDate = new Date(year, month + 1, 0).getDate();
+    var dows = ['일', '월', '화', '수', '목', '금', '토'];
+
+    var html = '<p class="calendar__month">' + year + '. ' + String(month + 1).padStart(2, '0') + '</p>';
+    html += '<div class="calendar__grid">';
+
+    dows.forEach(function (d, i) {
+      html += '<span class="calendar__dow' + (i === 0 ? ' calendar__dow--sun' : '') + '">' + d + '</span>';
+    });
+
+    for (var b = 0; b < firstDow; b++) html += '<span></span>';
+
+    for (var day = 1; day <= lastDate; day++) {
+      var dow = (firstDow + day - 1) % 7;
+      var cls = 'calendar__day';
+      if (dow === 0) cls += ' calendar__day--sun';
+      if (day === weddingDay) cls += ' calendar__day--wedding';
+      html += '<span class="' + cls + '">' + day + '</span>';
+    }
+
+    html += '</div>';
+    el.innerHTML = html;
+  }
+
+  /* ---------- D-day 카운트다운 ---------- */
+  function updateCountdown() {
+    var box = document.getElementById('countdown');
+    var msg = document.getElementById('cd-message');
+    if (!box || isNaN(weddingDate)) return;
+
+    var diff = weddingDate.getTime() - Date.now();
+
+    if (diff <= 0) {
+      box.style.display = 'none';
+      if (msg) msg.innerHTML = '두 사람이 부부가 되었습니다. 축복해 주셔서 감사합니다 <strong>&hearts;</strong>';
+      return;
+    }
+
+    var s = Math.floor(diff / 1000);
+    var days = Math.floor(s / 86400);
+    var hours = Math.floor((s % 86400) / 3600);
+    var mins = Math.floor((s % 3600) / 60);
+    var secs = s % 60;
+
+    document.getElementById('cd-days').textContent = days;
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+
+    if (msg) {
+      msg.innerHTML = '결혼식까지 <strong>D-' + days + '</strong> 남았습니다';
+    }
+  }
+
+  /* ---------- 토스트 ---------- */
+  var toastTimer = null;
+  function showToast(text) {
+    var toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = text;
+    toast.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.classList.remove('is-visible');
+    }, 2000);
+  }
+
+  /* ---------- 클립보드 복사 ---------- */
+  function copyText(text, doneMessage) {
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast(doneMessage);
+      } catch (e) {
+        showToast('복사에 실패했습니다');
+      }
+      document.body.removeChild(ta);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        showToast(doneMessage);
+      }, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  document.querySelectorAll('.btn--copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      copyText(btn.dataset.copy, '계좌번호가 복사되었습니다');
+    });
+  });
+
+  var shareBtn = document.getElementById('share-link');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function () {
+      copyText(window.location.href, '청첩장 링크가 복사되었습니다');
+    });
+  }
+
+  /* ---------- 아코디언 ---------- */
+  document.querySelectorAll('.accordion__header').forEach(function (header) {
+    header.addEventListener('click', function () {
+      var acc = header.parentElement;
+      var open = acc.classList.toggle('is-open');
+      header.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  /* ---------- 스크롤 등장 애니메이션 ---------- */
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function (el) { observer.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  /* ---------- 초기화 ---------- */
+  renderCalendar();
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+})();
