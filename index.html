@@ -7,7 +7,7 @@ layout: default
   <p class="cover__label reveal">WEDDING INVITATION</p>
 
   <!-- 메인 사진 자리 -->
-  <div class="photo-placeholder photo-placeholder--main reveal" role="img" aria-label="메인 웨딩 사진 자리">
+  <div class="photo-placeholder photo-placeholder--main reveal reveal--fade" data-parallax="0.1" role="img" aria-label="메인 웨딩 사진 자리">
     <span class="photo-placeholder__icon">&#10047;</span>
     <span class="photo-placeholder__text">메인 사진</span>
   </div>
@@ -134,9 +134,9 @@ layout: default
   <h2 class="section__title reveal">우리의 순간들</h2>
   <div class="ornament reveal"><span>&#10047;</span></div>
 
-  <div class="gallery reveal">
+  <div class="gallery">
     {% for i in (1..6) %}
-    <div class="photo-placeholder photo-placeholder--gallery" role="img" aria-label="갤러리 사진 {{ i }} 자리">
+    <div class="photo-placeholder photo-placeholder--gallery reveal reveal--photo" role="img" aria-label="갤러리 사진 {{ i }} 자리">
       <span class="photo-placeholder__icon">&#10047;</span>
       <span class="photo-placeholder__text">사진 {{ i }}</span>
     </div>
@@ -155,7 +155,7 @@ layout: default
   <p class="venue-tel reveal"><a href="tel:{{ site.venue.tel }}">Tel. {{ site.venue.tel }}</a></p>
 
   <!-- 지도 자리 -->
-  <div class="photo-placeholder photo-placeholder--map reveal" role="img" aria-label="약도 이미지 자리">
+  <div class="photo-placeholder photo-placeholder--map reveal reveal--fade" data-parallax="0.08" role="img" aria-label="약도 이미지 자리">
     <span class="photo-placeholder__icon">&#9906;</span>
     <span class="photo-placeholder__text">약도 이미지</span>
   </div>
