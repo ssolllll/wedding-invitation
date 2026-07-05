@@ -456,7 +456,118 @@ body {
   padding: 7px 14px;
 }
 
-/* ---------- 8. 마무리 ---------- */
+/* ---------- 8. 방명록 ---------- */
+
+.guestbook-note {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: 26px;
+}
+
+.guestbook-form {
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+
+.guestbook-form__name,
+.guestbook-form__message {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--ivory-deep);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 13px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: none;
+}
+
+.guestbook-form__name:focus,
+.guestbook-form__message:focus {
+  border-color: var(--gold-soft);
+}
+
+.guestbook-form__name::placeholder,
+.guestbook-form__message::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+
+.btn--solid {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+  font-weight: 500;
+  padding: 13px 22px;
+}
+
+.btn--solid:active { background: #a3874c; }
+
+.btn--solid:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.guestbook-demo-note {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-top: 12px;
+}
+
+.guestbook-list {
+  margin-top: 34px;
+  display: grid;
+  gap: 12px;
+  text-align: left;
+}
+
+.guestbook-item {
+  background: var(--ivory-deep);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+
+.guestbook-item__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.guestbook-item__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.guestbook-item__date {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+.guestbook-item__message {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.guestbook-empty {
+  margin-top: 34px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 2;
+}
+
+/* ---------- 9. 마무리 ---------- */
 
 .closing {
   padding: 64px 28px 80px;

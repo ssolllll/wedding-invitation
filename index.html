@@ -222,7 +222,34 @@ layout: default
   </div>
 </section>
 
-<!-- ============ 8. 마무리 ============ -->
+<!-- ============ 8. 방명록 ============ -->
+{% if site.guestbook.enabled %}
+<section class="section" id="guestbook"
+         data-project-id="{{ site.guestbook.firebase_project_id }}"
+         data-api-key="{{ site.guestbook.firebase_api_key }}">
+  <p class="section__eyebrow reveal">GUESTBOOK</p>
+  <h2 class="section__title reveal">방명록</h2>
+  <div class="ornament reveal"><span>&#10047;</span></div>
+  <p class="guestbook-note reveal">축하의 마음을 남겨주세요</p>
+
+  <form class="guestbook-form reveal" id="gb-form">
+    <input class="guestbook-form__name" id="gb-name" type="text"
+           placeholder="이름" maxlength="20" required autocomplete="name">
+    <textarea class="guestbook-form__message" id="gb-message" rows="3"
+              placeholder="따뜻한 축하 메시지를 남겨주세요 (최대 500자)" maxlength="500" required></textarea>
+    <button class="btn btn--solid" type="submit" id="gb-submit">마음 남기기</button>
+  </form>
+
+  <p class="guestbook-demo-note" id="gb-demo-note" hidden>
+    &#9432; 현재 데모 모드 — 메시지가 이 기기에만 저장됩니다
+  </p>
+
+  <div class="guestbook-list" id="gb-list" aria-live="polite"></div>
+  <p class="guestbook-empty" id="gb-empty" hidden>아직 남겨진 메시지가 없습니다.<br>첫 번째 축하 메시지를 남겨주세요 &hearts;</p>
+</section>
+{% endif %}
+
+<!-- ============ 9. 마무리 ============ -->
 <footer class="closing">
   <div class="ornament reveal"><span>&#10022;</span></div>
   <p class="closing__thanks reveal">THANK YOU</p>

@@ -14,6 +14,7 @@ GitHub Pages + Jekyll로 배포하는 모바일 청첩장입니다.
 | 갤러리 | 사진 6장 자리 표시 |
 | 오시는 길 | 약도 자리 + 네이버/카카오맵 링크 + 대중교통 안내 |
 | 마음 전하실 곳 | 신랑측/신부측 계좌번호 아코디언 + 복사 버튼 |
+| 방명록 | 축하 메시지 작성/조회 — Firebase Firestore 저장 (미설정 시 데모 모드) |
 
 ## 내용 수정하기
 
@@ -37,6 +38,56 @@ GitHub Pages + Jekyll로 배포하는 모바일 청첩장입니다.
 <!-- 교체 후 -->
 <img class="photo-main" src="{{ '/assets/images/main.jpg' | relative_url }}" alt="웨딩 사진">
 ```
+
+## 방명록 설정 (Firebase Firestore, 무료)
+
+GitHub Pages는 정적 호스팅이라 서버가 없습니다. 방명록은 브라우저에서
+Firebase Firestore(구글 무료 DB)에 직접 저장하는 방식으로 동작합니다.
+
+> 설정하지 않으면 **데모 모드**로 동작합니다 — 메시지가 작성자 기기(localStorage)에만 저장됩니다.
+
+### 설정 순서 (약 5분)
+
+1. [Firebase 콘솔](https://console.firebase.google.com)에서 새 프로젝트 생성 (애널리틱스 불필요)
+2. 왼쪽 메뉴 **빌드 → Firestore Database → 데이터베이스 만들기** → **프로덕션 모드**로 시작 (리전: `asia-northeast3` 서울 추천)
+3. Firestore **규칙** 탭에 아래 규칙을 붙여넣고 게시:
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /guestbook/{doc} {
+      // 누구나 읽기/작성 가능, 수정·삭제 불가
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['name', 'message', 'createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 20
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0
+        && request.resource.data.message.size() <= 500;
+      allow update, delete: if false;
+    }
+  }
+}
+```
+
+4. **프로젝트 설정(톱니바퀴) → 일반** 에서 두 값을 확인:
+   - `프로젝트 ID` → `_config.yml`의 `firebase_project_id`
+   - `웹 API 키` → `_config.yml`의 `firebase_api_key`
+
+```yaml
+guestbook:
+  enabled: true
+  firebase_project_id: "my-wedding-12345"
+  firebase_api_key: "AIzaSy..."
+```
+
+5. 푸시하면 끝. 이제 모든 하객의 메시지가 공유 DB에 저장됩니다.
+
+> 웹 API 키는 공개되어도 되는 값입니다 (Firebase 웹 앱의 기본 구조).
+> 실제 보안은 위의 Firestore 규칙이 담당합니다 — 이름/메시지 형식의 문서 생성과 읽기만 허용됩니다.
+> 부적절한 메시지는 Firebase 콘솔 → Firestore → `guestbook` 컬렉션에서 직접 삭제할 수 있습니다.
 
 ## GitHub Pages 배포
 

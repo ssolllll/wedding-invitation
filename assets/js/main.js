@@ -300,9 +300,164 @@
     requestAnimationFrame(tick);
   }
 
+  /* ---------- 방명록 ---------- */
+  function initGuestbook() {
+    var section = document.getElementById('guestbook');
+    if (!section) return;
+
+    var projectId = section.dataset.projectId;
+    var apiKey = section.dataset.apiKey;
+    var useFirebase = !!(projectId && apiKey);
+
+    var form = document.getElementById('gb-form');
+    var nameInput = document.getElementById('gb-name');
+    var msgInput = document.getElementById('gb-message');
+    var submitBtn = document.getElementById('gb-submit');
+    var listEl = document.getElementById('gb-list');
+    var emptyEl = document.getElementById('gb-empty');
+    var demoNote = document.getElementById('gb-demo-note');
+
+    if (!useFirebase) demoNote.hidden = false;
+
+    var FIRESTORE_BASE = 'https://firestore.googleapis.com/v1/projects/' + projectId + '/databases/(default)/documents';
+    var DEMO_KEY = 'wedding-guestbook-demo';
+
+    /* --- 저장소 어댑터: Firestore REST ↔ localStorage --- */
+    function fetchEntries() {
+      if (!useFirebase) {
+        var saved = [];
+        try { saved = JSON.parse(localStorage.getItem(DEMO_KEY)) || []; } catch (e) {}
+        return Promise.resolve(saved);
+      }
+      return fetch(FIRESTORE_BASE + ':runQuery?key=' + apiKey, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          structuredQuery: {
+            from: [{ collectionId: 'guestbook' }],
+            orderBy: [{ field: { fieldPath: 'createdAt' }, direction: 'DESCENDING' }],
+            limit: 100
+          }
+        })
+      }).then(function (res) {
+        if (!res.ok) throw new Error('firestore ' + res.status);
+        return res.json();
+      }).then(function (rows) {
+        return rows
+          .filter(function (r) { return r.document; })
+          .map(function (r) {
+            var f = r.document.fields || {};
+            return {
+              name: (f.name && f.name.stringValue) || '',
+              message: (f.message && f.message.stringValue) || '',
+              createdAt: (f.createdAt && f.createdAt.timestampValue) || r.document.createTime
+            };
+          });
+      });
+    }
+
+    function saveEntry(entry) {
+      if (!useFirebase) {
+        var saved = [];
+        try { saved = JSON.parse(localStorage.getItem(DEMO_KEY)) || []; } catch (e) {}
+        saved.unshift(entry);
+        localStorage.setItem(DEMO_KEY, JSON.stringify(saved.slice(0, 100)));
+        return Promise.resolve();
+      }
+      return fetch(FIRESTORE_BASE + '/guestbook?key=' + apiKey, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fields: {
+            name: { stringValue: entry.name },
+            message: { stringValue: entry.message },
+            createdAt: { timestampValue: entry.createdAt }
+          }
+        })
+      }).then(function (res) {
+        if (!res.ok) throw new Error('firestore ' + res.status);
+      });
+    }
+
+    /* --- 렌더링 (textContent 사용 → XSS 안전) --- */
+    function formatDate(iso) {
+      var d = new Date(iso);
+      if (isNaN(d)) return '';
+      return d.getFullYear() + '.' +
+        String(d.getMonth() + 1).padStart(2, '0') + '.' +
+        String(d.getDate()).padStart(2, '0');
+    }
+
+    function renderList(entries) {
+      listEl.innerHTML = '';
+      emptyEl.hidden = entries.length > 0;
+
+      entries.forEach(function (entry) {
+        var item = document.createElement('div');
+        item.className = 'guestbook-item';
+
+        var head = document.createElement('div');
+        head.className = 'guestbook-item__head';
+
+        var name = document.createElement('span');
+        name.className = 'guestbook-item__name';
+        name.textContent = entry.name;
+
+        var date = document.createElement('span');
+        date.className = 'guestbook-item__date';
+        date.textContent = formatDate(entry.createdAt);
+
+        var msg = document.createElement('p');
+        msg.className = 'guestbook-item__message';
+        msg.textContent = entry.message;
+
+        head.appendChild(name);
+        head.appendChild(date);
+        item.appendChild(head);
+        item.appendChild(msg);
+        listEl.appendChild(item);
+      });
+    }
+
+    function refresh() {
+      fetchEntries().then(renderList).catch(function () {
+        emptyEl.hidden = false;
+        emptyEl.textContent = '방명록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.';
+      });
+    }
+
+    /* --- 등록 --- */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = nameInput.value.trim();
+      var message = msgInput.value.trim();
+      if (!name || !message) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = '남기는 중...';
+
+      var entry = { name: name, message: message, createdAt: new Date().toISOString() };
+
+      saveEntry(entry).then(function () {
+        nameInput.value = '';
+        msgInput.value = '';
+        showToast('소중한 마음이 전달되었습니다 ♥');
+        refresh();
+      }).catch(function () {
+        showToast('저장에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      }).finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '마음 남기기';
+      });
+    });
+
+    refresh();
+  }
+
   /* ---------- 초기화 ---------- */
   renderCalendar();
   updateCountdown();
   setInterval(updateCountdown, 1000);
   initFallingLeaves();
+  initGuestbook();
 })();
