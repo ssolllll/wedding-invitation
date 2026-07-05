@@ -149,8 +149,98 @@
     reveals.forEach(function (el) { el.classList.add('is-visible'); });
   }
 
+  /* ---------- 단풍잎 떨어지는 효과 ---------- */
+  function initFallingLeaves() {
+    var canvas = document.getElementById('leaves');
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      canvas.remove();
+      return;
+    }
+
+    var ctx = canvas.getContext('2d');
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W, H;
+    var GLYPHS = ['🍁', '🍂']; // 🍁 🍂
+    var steadyCount = parseInt(canvas.dataset.count, 10) || 16;
+    var burstCount = parseInt(canvas.dataset.burst, 10) || 26;
+    var leaves = [];
+
+    function resize() {
+      W = window.innerWidth;
+      H = window.innerHeight;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function makeLeaf(isBurst) {
+      return {
+        glyph: GLYPHS[Math.random() < 0.7 ? 0 : 1],
+        x: Math.random() * W,
+        // 인트로 버스트는 화면 전체에 흩뿌리고, 평상시엔 화면 위에서 시작
+        y: isBurst ? Math.random() * H * 0.9 - H * 0.2 : -40 - Math.random() * H * 0.3,
+        size: 14 + Math.random() * 18,
+        speedY: 0.5 + Math.random() * 1.1,
+        rot: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.03,
+        swayAmp: 24 + Math.random() * 36,
+        swayFreq: 0.004 + Math.random() * 0.004,
+        swayPhase: Math.random() * Math.PI * 2,
+        alpha: 0.55 + Math.random() * 0.4,
+        burst: !!isBurst
+      };
+    }
+
+    // 첫 진입: 화면 가득 흩날리는 인트로 버스트 + 평상시 유지분
+    for (var i = 0; i < burstCount; i++) leaves.push(makeLeaf(true));
+    for (var j = 0; j < steadyCount; j++) leaves.push(makeLeaf(false));
+
+    var start = performance.now();
+
+    function tick(now) {
+      ctx.clearRect(0, 0, W, H);
+      var t = now - start;
+
+      for (var k = 0; k < leaves.length; k++) {
+        var leaf = leaves[k];
+        leaf.y += leaf.speedY;
+        leaf.rot += leaf.rotSpeed;
+        var sway = Math.sin(t * leaf.swayFreq + leaf.swayPhase) * leaf.swayAmp;
+
+        if (leaf.y > H + 50) {
+          if (leaf.burst) {
+            // 인트로용 잎은 한 번 떨어지면 제거 → 이후엔 잔잔한 효과만 유지
+            leaves.splice(k, 1);
+            k--;
+            continue;
+          }
+          leaves[k] = makeLeaf(false);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = leaf.alpha;
+        ctx.translate(leaf.x + sway, leaf.y);
+        ctx.rotate(leaf.rot);
+        ctx.font = leaf.size + 'px serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(leaf.glyph, 0, 0);
+        ctx.restore();
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
   /* ---------- 초기화 ---------- */
   renderCalendar();
   updateCountdown();
   setInterval(updateCountdown, 1000);
+  initFallingLeaves();
 })();

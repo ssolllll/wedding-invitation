@@ -18,6 +18,11 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body data-wedding-date="{{ site.wedding.date }}">
+  {% if site.effects.falling_leaves %}
+  <canvas id="leaves" class="leaves-canvas" aria-hidden="true"
+          data-count="{{ site.effects.leaves_count | default: 16 }}"
+          data-burst="{{ site.effects.leaves_burst | default: 26 }}"></canvas>
+  {% endif %}
   <main class="invitation">
     {{ content }}
   </main>
