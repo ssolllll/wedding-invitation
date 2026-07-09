@@ -3,21 +3,21 @@
    ============================================================ */
 
 :root {
-  --cream: #fffdf4;
-  --mint-bg: #eaf7e6;
-  --yellow-bg: #fff4d6;
-  --pink-bg: #ffeef1;
-  --pink: #ff8fa3;
-  --pink-deep: #f76e88;
-  --pink-soft: #ffd3dc;
-  --green: #6fb96f;
-  --green-soft: #bfe3b4;
-  --yellow: #ffc94d;
-  --yellow-soft: #ffe7a3;
-  --blue-soft: #cdeafb;
-  --ink: #5b5142;
-  --ink-soft: #a19682;
-  --line: #f0e6d2;
+  --cream: #fffdf6;
+  --mint-bg: #eef6ec;
+  --yellow-bg: #fbf3de;
+  --pink-bg: #fdf0f2;
+  --pink: #f0a6b3;
+  --pink-deep: #e08a9a;
+  --pink-soft: #fadde3;
+  --green: #8bb489;
+  --green-soft: #cfe3c9;
+  --yellow: #f2d691;
+  --yellow-soft: #f8ecc7;
+  --blue-soft: #d7e9f5;
+  --ink: #6b6153;
+  --ink-soft: #a89d8d;
+  --line: #efe7d6;
   --round: 'Jua', 'Apple SD Gothic Neo', sans-serif;
   --hand: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
   --body: 'Gowun Dodum', 'Apple SD Gothic Neo', sans-serif;
@@ -100,14 +100,14 @@ body {
   border: 2px solid var(--ink);
   border-radius: 999px;
   padding: 5px 16px;
-  box-shadow: 2.5px 2.5px 0 var(--green-soft);
-  transform: rotate(-2deg);
+  box-shadow: 2px 2px 0 var(--green-soft);
+  transform: rotate(-1deg);
 }
 
 .sticker--pink {
   background: var(--pink-soft);
-  box-shadow: 2.5px 2.5px 0 var(--yellow-soft);
-  transform: rotate(2deg);
+  box-shadow: 2px 2px 0 var(--yellow-soft);
+  transform: rotate(1deg);
 }
 
 .section__title {
@@ -136,29 +136,13 @@ body {
   border-top: 2.5px dotted var(--green-soft);
 }
 
-/* 아이콘 살랑살랑 */
-.wiggle {
-  display: inline-block;
-  animation: wiggle 2.4s ease-in-out infinite;
-}
-
-@keyframes wiggle {
-  0%, 100% { transform: rotate(-8deg); }
-  50% { transform: rotate(8deg); }
-}
-
-/* 콩콩 뛰기 */
+/* 아이콘 (정적 — 은은하게) */
+.wiggle,
 .bounce {
   display: inline-block;
-  animation: bounce 1.8s ease-in-out infinite;
 }
 
-.bounce--delay { animation-delay: 0.4s; }
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-7px); }
-}
+.bounce--delay { animation-delay: 0; }
 
 .btn {
   display: inline-block;
@@ -241,33 +225,6 @@ body {
   pointer-events: none;
 }
 
-.cover__sun {
-  position: absolute;
-  top: 6px;
-  right: 26px;
-  font-size: 34px;
-  animation: spin-slow 14s linear infinite;
-}
-
-@keyframes spin-slow {
-  to { transform: rotate(360deg); }
-}
-
-.cover__cloud {
-  position: absolute;
-  font-size: 26px;
-  opacity: 0.9;
-  animation: drift 9s ease-in-out infinite alternate;
-}
-
-.cover__cloud--1 { top: 4px; left: 22px; }
-.cover__cloud--2 { top: 30px; left: 84px; font-size: 20px; animation-delay: 2s; }
-
-@keyframes drift {
-  from { transform: translateX(0); }
-  to { transform: translateX(14px); }
-}
-
 .cover__names {
   font-family: var(--round);
   font-size: 30px;
@@ -278,9 +235,8 @@ body {
 
 .cover__amp {
   display: inline-block;
-  font-size: 22px;
+  font-size: 20px;
   margin: 0 8px;
-  animation: bounce 1.4s ease-in-out infinite;
 }
 
 .cover__cheer {
@@ -420,8 +376,8 @@ body {
   padding: 24px 14px 20px;
 }
 
-.couple-card--groom { box-shadow: 4px 4px 0 var(--blue-soft); transform: rotate(-1.2deg); }
-.couple-card--bride { box-shadow: 4px 4px 0 var(--pink-soft); transform: rotate(1.2deg); }
+.couple-card--groom { box-shadow: 3px 3px 0 var(--blue-soft); transform: rotate(-0.5deg); }
+.couple-card--bride { box-shadow: 3px 3px 0 var(--pink-soft); transform: rotate(0.5deg); }
 
 .couple-card__avatar {
   font-size: 44px;
@@ -588,7 +544,6 @@ body {
   border-radius: 50%;
   background: var(--pink);
   z-index: -1;
-  animation: heartbeat 1.6s ease-in-out infinite;
 }
 
 .calendar__day--wedding::after {
@@ -599,14 +554,6 @@ body {
   transform: translateX(-50%);
   font-size: 13px;
   line-height: 1;
-}
-
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  12% { transform: scale(1.14); }
-  24% { transform: scale(1); }
-  36% { transform: scale(1.14); }
-  48% { transform: scale(1); }
 }
 
 /* 카운트다운 */
@@ -975,9 +922,9 @@ body {
 
 .reveal {
   opacity: 0;
-  transform: translateY(26px) scale(0.97);
-  transition: opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
-              transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translateY(22px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal.is-visible {
@@ -999,13 +946,13 @@ body {
 
 /* 사진: 폴짝 뛰며 자리잡기 */
 .reveal--photo {
-  transform: translateY(24px) scale(0.85) rotate(-2deg);
-  transition: opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
-              transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translateY(22px) scale(0.96);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal--photo.is-visible {
-  transform: translateY(0) scale(1) rotate(0deg);
+  transform: translateY(0) scale(1);
 }
 
 /* 점선 장식: 가운데에서 양쪽으로 펼쳐지며 그려짐 */
@@ -1022,13 +969,13 @@ body {
 
 /* 표지 이름: 폴짝 등장 */
 .cover__names.reveal {
-  transform: translateY(30px) scale(0.8);
+  transform: translateY(24px);
   transition: opacity 0.9s ease,
-              transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+              transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .cover__names.reveal.is-visible {
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1042,6 +989,4 @@ body {
   }
   .ornament.reveal::before,
   .ornament.reveal::after { width: 52px; transition: none; }
-  .wiggle, .bounce, .cover__sun, .cover__cloud,
-  .calendar__day--wedding::before { animation: none; }
 }

@@ -4,13 +4,7 @@ layout: default
 
 <!-- ============ 1. 표지 ============ -->
 <section class="cover">
-  <div class="cover__sky" aria-hidden="true">
-    <span class="cover__sun">☀️</span>
-    <span class="cover__cloud cover__cloud--1">☁️</span>
-    <span class="cover__cloud cover__cloud--2">☁️</span>
-  </div>
-
-  <p class="cover__label reveal"><span class="sticker">💌 WEDDING DAY 💌</span></p>
+  <p class="cover__label reveal"><span class="sticker">WEDDING DAY</span></p>
 
   <!-- 메인 사진 자리 -->
   <div class="photo-placeholder photo-placeholder--main reveal reveal--fade" data-parallax="0.1" role="img" aria-label="메인 웨딩 사진 자리">
@@ -28,8 +22,6 @@ layout: default
 
   <p class="cover__date reveal">{{ site.wedding.date_short }}</p>
   <p class="cover__venue reveal">{{ site.venue.name }} {{ site.venue.hall }}</p>
-
-  <div class="grass" aria-hidden="true">🌱🌷🌱🍀🌼🌱🌻🌱🌷🍀🌱🌼🌱</div>
 </section>
 
 <!-- ============ 2. 글귀 ============ -->
@@ -38,7 +30,7 @@ layout: default
     <p class="bubble__text">{{ site.quote | newline_to_br }}</p>
     <span class="bubble__tail" aria-hidden="true"></span>
   </div>
-  <p class="bubble-from reveal">— 예비부부 {{ site.groom.name }} &amp; {{ site.bride.name }} 올림 🙇</p>
+  <p class="bubble-from reveal">— 예비부부 {{ site.groom.name }} &amp; {{ site.bride.name }} 올림</p>
 </section>
 
 <!-- ============ 3. 인사말 ============ -->
@@ -67,7 +59,7 @@ layout: default
 <section class="section section--yellow">
   <p class="section__eyebrow reveal"><span class="sticker">ABOUT US</span></p>
   <h2 class="section__title reveal">오늘의 주인공을 소개합니다</h2>
-  <div class="ornament reveal"><span class="wiggle">🎉</span></div>
+  <div class="ornament reveal"><span class="wiggle">💐</span></div>
 
   <div class="couple reveal">
     <div class="couple-card couple-card--groom">
@@ -293,10 +285,9 @@ layout: default
 
 <!-- ============ 11. 마무리 ============ -->
 <footer class="closing">
-  <div class="grass grass--top" aria-hidden="true">🌱🌼🌱🍀🌷🌱🌻🌱🌼🍀🌱🌷🌱</div>
-  <p class="closing__thanks reveal">🎊 THANK YOU 🎊</p>
+  <p class="closing__thanks reveal">THANK YOU</p>
   <p class="closing__names reveal">{{ site.groom.name }} 💛 {{ site.bride.name }}</p>
-  <p class="closing__message reveal">읽어주셔서 감사해요!<br>예식장에서 반갑게 인사드릴게요 🙌</p>
+  <p class="closing__message reveal">읽어주셔서 감사해요.<br>예식장에서 반갑게 인사드릴게요</p>
   <button class="btn btn--outline reveal" type="button" id="share-link">🔗 청첩장 링크 복사하기</button>
 </footer>
 
