@@ -14,14 +14,14 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body data-wedding-date="{{ site.wedding.date }}">
-  {% if site.effects.falling_leaves %}
-  <canvas id="leaves" class="leaves-canvas" aria-hidden="true"
-          data-count="{{ site.effects.leaves_count | default: 16 }}"
-          data-burst="{{ site.effects.leaves_burst | default: 26 }}"></canvas>
+  {% if site.effects.falling_petals %}
+  <canvas id="petals" class="petals-canvas" aria-hidden="true"
+          data-count="{{ site.effects.petals_count | default: 14 }}"
+          data-burst="{{ site.effects.petals_burst | default: 24 }}"></canvas>
   {% endif %}
   <main class="invitation">
     {{ content }}

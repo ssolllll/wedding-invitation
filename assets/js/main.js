@@ -51,7 +51,7 @@
 
     if (diff <= 0) {
       box.style.display = 'none';
-      if (msg) msg.innerHTML = '두 사람이 부부가 되었습니다. 축복해 주셔서 감사합니다 <strong>&hearts;</strong>';
+      if (msg) msg.innerHTML = '저희 결혼했어요! 축하해 주셔서 감사합니다 💐';
       return;
     }
 
@@ -67,7 +67,7 @@
     document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
 
     if (msg) {
-      msg.innerHTML = '결혼식까지 <strong>D-' + days + '</strong> 남았습니다';
+      msg.innerHTML = '우리 결혼식까지 <strong>D-' + days + '</strong> 💕 콩닥콩닥!';
     }
   }
 
@@ -113,14 +113,14 @@
 
   document.querySelectorAll('.btn--copy').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      copyText(btn.dataset.copy, '계좌번호가 복사되었습니다');
+      copyText(btn.dataset.copy, '계좌번호가 복사되었어요 ✅');
     });
   });
 
   var shareBtn = document.getElementById('share-link');
   if (shareBtn) {
     shareBtn.addEventListener('click', function () {
-      copyText(window.location.href, '청첩장 링크가 복사되었습니다');
+      copyText(window.location.href, '청첩장 링크가 복사되었어요 🔗');
     });
   }
 
@@ -211,9 +211,9 @@
 
   initParallax();
 
-  /* ---------- 단풍잎 떨어지는 효과 ---------- */
-  function initFallingLeaves() {
-    var canvas = document.getElementById('leaves');
+  /* ---------- 꽃잎·하트 떨어지는 효과 ---------- */
+  function initFallingPetals() {
+    var canvas = document.getElementById('petals');
     if (!canvas) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       canvas.remove();
@@ -223,9 +223,9 @@
     var ctx = canvas.getContext('2d');
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
     var W, H;
-    var GLYPHS = ['🍁', '🍂']; // 🍁 🍂
-    var steadyCount = parseInt(canvas.dataset.count, 10) || 16;
-    var burstCount = parseInt(canvas.dataset.burst, 10) || 26;
+    var GLYPHS = ['🌸', '🌼', '🍀', '💛', '🌷'];
+    var steadyCount = parseInt(canvas.dataset.count, 10) || 14;
+    var burstCount = parseInt(canvas.dataset.burst, 10) || 24;
     var leaves = [];
 
     function resize() {
@@ -240,7 +240,7 @@
 
     function makeLeaf(isBurst) {
       return {
-        glyph: GLYPHS[Math.random() < 0.7 ? 0 : 1],
+        glyph: GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
         x: Math.random() * W,
         // 인트로 버스트는 화면 전체에 흩뿌리고, 평상시엔 화면 위에서 시작
         y: isBurst ? Math.random() * H * 0.9 - H * 0.2 : -40 - Math.random() * H * 0.3,
@@ -441,23 +441,47 @@
       saveEntry(entry).then(function () {
         nameInput.value = '';
         msgInput.value = '';
-        showToast('소중한 마음이 전달되었습니다 ♥');
+        showToast('소중한 마음이 전달되었어요 💛');
         refresh();
       }).catch(function () {
         showToast('저장에 실패했습니다. 잠시 후 다시 시도해주세요.');
       }).finally(function () {
         submitBtn.disabled = false;
-        submitBtn.textContent = '마음 남기기';
+        submitBtn.textContent = '💌 마음 남기기';
       });
     });
 
     refresh();
   }
 
+  /* ---------- 표지 탭하면 하트 팡팡 (이스터에그) ---------- */
+  function initHeartPop() {
+    var cover = document.querySelector('.cover');
+    if (!cover) return;
+
+    var POPS = ['💛', '💚', '🧡', '💕', '✨'];
+
+    cover.addEventListener('click', function (e) {
+      for (var i = 0; i < 3; i++) {
+        var heart = document.createElement('span');
+        heart.className = 'heart-pop';
+        heart.textContent = POPS[Math.floor(Math.random() * POPS.length)];
+        heart.style.left = (e.clientX + (Math.random() - 0.5) * 60) + 'px';
+        heart.style.top = (e.clientY + (Math.random() - 0.5) * 20) + 'px';
+        heart.style.animationDelay = (i * 90) + 'ms';
+        document.body.appendChild(heart);
+        heart.addEventListener('animationend', function (ev) {
+          ev.target.remove();
+        });
+      }
+    });
+  }
+
   /* ---------- 초기화 ---------- */
   renderCalendar();
   updateCountdown();
   setInterval(updateCountdown, 1000);
-  initFallingLeaves();
+  initFallingPetals();
   initGuestbook();
+  initHeartPop();
 })();
