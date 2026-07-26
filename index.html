@@ -6,10 +6,9 @@ layout: default
 <section class="cover">
   <p class="cover__label reveal"><span class="sticker">WEDDING DAY</span></p>
 
-  <!-- 메인 사진 자리 -->
-  <div class="photo-placeholder photo-placeholder--main reveal reveal--fade" data-parallax="0.1" role="img" aria-label="메인 웨딩 사진 자리">
-    <span class="photo-placeholder__icon">📸</span>
-    <span class="photo-placeholder__text">우리의 제일 예쁜 사진</span>
+  <!-- 메인 사진 -->
+  <div class="cover-photo reveal reveal--fade" data-parallax="0.1">
+    <img class="cover-photo__img" src="{{ '/assets/img/main.jpg' | relative_url }}" alt="{{ site.groom.name }} · {{ site.bride.name }}">
   </div>
 
   <h1 class="cover__names reveal">
