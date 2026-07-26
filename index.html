@@ -54,92 +54,7 @@ layout: default
   </div>
 </section>
 
-<!-- ============ 4. 신랑 & 신부 소개 ============ -->
-<section class="section section--yellow">
-  <p class="section__eyebrow reveal"><span class="sticker">ABOUT US</span></p>
-  <h2 class="section__title reveal">오늘의 주인공을 소개합니다</h2>
-  <div class="ornament reveal"><span class="wiggle">💐</span></div>
-
-  <div class="couple reveal">
-    <div class="couple-card couple-card--groom">
-      <span class="couple-card__avatar bounce" aria-hidden="true">{{ site.groom.emoji }}</span>
-      <p class="couple-card__role">신랑</p>
-      <p class="couple-card__name">{{ site.groom.name }}</p>
-      <p class="couple-card__tagline">{{ site.groom.tagline }}</p>
-      <p class="couple-card__intro">{{ site.groom.intro | newline_to_br }}</p>
-    </div>
-    <div class="couple-heart bounce" aria-hidden="true">💘</div>
-    <div class="couple-card couple-card--bride">
-      <span class="couple-card__avatar bounce bounce--delay" aria-hidden="true">{{ site.bride.emoji }}</span>
-      <p class="couple-card__role">신부</p>
-      <p class="couple-card__name">{{ site.bride.name }}</p>
-      <p class="couple-card__tagline">{{ site.bride.tagline }}</p>
-      <p class="couple-card__intro">{{ site.bride.intro | newline_to_br }}</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 5. 연락처 ============ -->
-<section class="section">
-  <p class="section__eyebrow reveal"><span class="sticker sticker--pink">CONTACT</span></p>
-  <h2 class="section__title reveal">축하 인사 건네주세요</h2>
-
-  <div class="contact-grid reveal">
-    <div class="contact-card">
-      <p class="contact-card__role">신랑</p>
-      <p class="contact-card__name">{{ site.groom.name }}</p>
-      <div class="contact-card__actions">
-        <a href="tel:{{ site.groom.phone }}" aria-label="신랑에게 전화">📞 전화</a>
-        <a href="sms:{{ site.groom.phone }}" aria-label="신랑에게 문자">💬 문자</a>
-      </div>
-    </div>
-    <div class="contact-card">
-      <p class="contact-card__role">신부</p>
-      <p class="contact-card__name">{{ site.bride.name }}</p>
-      <div class="contact-card__actions">
-        <a href="tel:{{ site.bride.phone }}" aria-label="신부에게 전화">📞 전화</a>
-        <a href="sms:{{ site.bride.phone }}" aria-label="신부에게 문자">💬 문자</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="contact-grid contact-grid--parents reveal">
-    <div class="contact-card contact-card--small">
-      <p class="contact-card__role">신랑 아버지</p>
-      <p class="contact-card__name">{{ site.groom.father.name }}</p>
-      <div class="contact-card__actions">
-        <a href="tel:{{ site.groom.father.phone }}">📞</a>
-        <a href="sms:{{ site.groom.father.phone }}">💬</a>
-      </div>
-    </div>
-    <div class="contact-card contact-card--small">
-      <p class="contact-card__role">신랑 어머니</p>
-      <p class="contact-card__name">{{ site.groom.mother.name }}</p>
-      <div class="contact-card__actions">
-        <a href="tel:{{ site.groom.mother.phone }}">📞</a>
-        <a href="sms:{{ site.groom.mother.phone }}">💬</a>
-      </div>
-    </div>
-    <div class="contact-card contact-card--small">
-      <p class="contact-card__role">신부 아버지</p>
-      <p class="contact-card__name">{{ site.bride.father.name }}</p>
-      <div class="contact-card__actions">
-        <a href="tel:{{ site.bride.father.phone }}">📞</a>
-        <a href="sms:{{ site.bride.father.phone }}">💬</a>
-      </div>
-    </div>
-    <div class="contact-card contact-card--small">
-      <p class="contact-card__role">신부 어머니</p>
-      <p class="contact-card__name">{{ site.bride.mother.name }}</p>
-      <div class="contact-card__actions">
-        <a href="tel:{{ site.bride.mother.phone }}">📞</a>
-        <a href="sms:{{ site.bride.mother.phone }}">💬</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 6. 예식 안내 (달력 + D-day) ============ -->
+<!-- ============ 4. 예식 안내 (달력 + D-day) ============ -->
 <section class="section section--mint">
   <p class="section__eyebrow reveal"><span class="sticker">SAVE THE DATE</span></p>
   <h2 class="section__title reveal">달력에 동그라미 쳐주세요!</h2>
@@ -161,24 +76,24 @@ layout: default
   <p class="countdown__message reveal" id="cd-message"></p>
 </section>
 
-<!-- ============ 7. 갤러리 ============ -->
+<!-- ============ 5. 갤러리 ============ -->
 <section class="section">
   <p class="section__eyebrow reveal"><span class="sticker sticker--pink">GALLERY</span></p>
   <h2 class="section__title reveal">우리의 반짝이는 순간들</h2>
   <div class="ornament reveal"><span class="wiggle">✨</span></div>
 
+  <!-- 사진 선정 전: 자리 표시만 (6장) -->
   <div class="gallery">
-    {% for i in (1..19) %}
-    {% assign n = i | append: '' %}
-    {% if i < 10 %}{% assign n = '0' | append: i %}{% endif %}
-    <div class="gallery-item reveal reveal--photo">
-      <img class="gallery-item__img" src="{{ '/assets/img/gallery/g' | append: n | append: '.jpg' | relative_url }}" alt="{{ site.groom.name }} · {{ site.bride.name }} 갤러리 사진 {{ i }}" loading="lazy">
+    {% for i in (1..6) %}
+    <div class="photo-placeholder photo-placeholder--gallery reveal reveal--photo" role="img" aria-label="갤러리 사진 {{ i }} 자리">
+      <span class="photo-placeholder__icon">🌸</span>
+      <span class="photo-placeholder__text">사진 {{ i }}</span>
     </div>
     {% endfor %}
   </div>
 </section>
 
-<!-- ============ 8. 오시는 길 ============ -->
+<!-- ============ 6. 오시는 길 ============ -->
 <section class="section section--yellow">
   <p class="section__eyebrow reveal"><span class="sticker">LOCATION</span></p>
   <h2 class="section__title reveal">이곳으로 와주세요!</h2>
@@ -215,7 +130,7 @@ layout: default
   </dl>
 </section>
 
-<!-- ============ 9. 마음 전하실 곳 ============ -->
+<!-- ============ 7. 마음 전하실 곳 ============ -->
 <section class="section">
   <p class="section__eyebrow reveal"><span class="sticker sticker--pink">WITH LOVE</span></p>
   <h2 class="section__title reveal">마음 전하실 곳</h2>
@@ -256,7 +171,7 @@ layout: default
   </div>
 </section>
 
-<!-- ============ 10. 방명록 ============ -->
+<!-- ============ 8. 방명록 ============ -->
 {% if site.guestbook.enabled %}
 <section class="section section--mint" id="guestbook"
          data-project-id="{{ site.guestbook.firebase_project_id }}"
@@ -283,7 +198,7 @@ layout: default
 </section>
 {% endif %}
 
-<!-- ============ 11. 마무리 ============ -->
+<!-- ============ 9. 마무리 ============ -->
 <footer class="closing">
   <p class="closing__thanks reveal">THANK YOU</p>
   <p class="closing__names reveal">{{ site.groom.name }} 💛 {{ site.bride.name }}</p>
