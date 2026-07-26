@@ -168,10 +168,11 @@ layout: default
   <div class="ornament reveal"><span class="wiggle">✨</span></div>
 
   <div class="gallery">
-    {% for i in (1..6) %}
-    <div class="photo-placeholder photo-placeholder--gallery reveal reveal--photo" role="img" aria-label="갤러리 사진 {{ i }} 자리">
-      <span class="photo-placeholder__icon">🌸</span>
-      <span class="photo-placeholder__text">사진 {{ i }}</span>
+    {% for i in (1..19) %}
+    {% assign n = i | append: '' %}
+    {% if i < 10 %}{% assign n = '0' | append: i %}{% endif %}
+    <div class="gallery-item reveal reveal--photo">
+      <img class="gallery-item__img" src="{{ '/assets/img/gallery/g' | append: n | append: '.jpg' | relative_url }}" alt="{{ site.groom.name }} · {{ site.bride.name }} 갤러리 사진 {{ i }}" loading="lazy">
     </div>
     {% endfor %}
   </div>
