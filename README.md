@@ -28,7 +28,7 @@ GitHub Pages + Jekyll로 배포하는 모바일 청첩장입니다.
 현재는 사진이 들어갈 자리에 자리 표시(placeholder)만 있습니다.
 실제 사진을 넣으려면:
 
-1. `assets/images/` 폴더를 만들고 사진 파일을 넣습니다.
+1. `assets/img/` 폴더를 만들고 사진 파일을 넣습니다.
 2. `index.html`에서 해당 `photo-placeholder` div를 `<img>` 태그로 교체합니다.
 
 ```html
@@ -36,7 +36,7 @@ GitHub Pages + Jekyll로 배포하는 모바일 청첩장입니다.
 <div class="photo-placeholder photo-placeholder--main ...>...</div>
 
 <!-- 교체 후 -->
-<img class="photo-main" src="{{ '/assets/images/main.jpg' | relative_url }}" alt="웨딩 사진">
+<img class="photo-main" src="{{ '/assets/img/main.jpg' | relative_url }}" alt="웨딩 사진">
 ```
 
 ## 방명록 설정 (Firebase Firestore, 무료)

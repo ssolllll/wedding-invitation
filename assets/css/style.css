@@ -217,6 +217,21 @@ body {
 .photo-placeholder--gallery { aspect-ratio: 1 / 1; }
 .photo-placeholder--map { aspect-ratio: 16 / 10; margin: 26px 0 20px; }
 
+/* 약도 */
+.map-image {
+  display: block;
+  margin: 26px 0 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2.5px solid var(--pink);
+}
+
+.map-image__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .gallery-item {
   aspect-ratio: 1 / 1;
   border-radius: 16px;

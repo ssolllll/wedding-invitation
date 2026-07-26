@@ -103,11 +103,13 @@ layout: default
   <p class="venue-address reveal">{{ site.venue.address }}</p>
   <p class="venue-tel reveal"><a href="tel:{{ site.venue.tel }}">Tel. {{ site.venue.tel }}</a></p>
 
-  <!-- 지도 자리 -->
-  <div class="photo-placeholder photo-placeholder--map reveal reveal--fade" data-parallax="0.08" role="img" aria-label="약도 이미지 자리">
-    <span class="photo-placeholder__icon">🗺️</span>
-    <span class="photo-placeholder__text">약도 이미지</span>
-  </div>
+  <!-- 약도 -->
+  <picture class="map-image reveal reveal--fade" data-parallax="0.08">
+    <source srcset="{{ '/assets/img/map.webp' | relative_url }}" type="image/webp">
+    <img class="map-image__img" src="{{ '/assets/img/map.jpg' | relative_url }}"
+         alt="{{ site.venue.name }} 오시는 길 약도 — 신도림역 2·3번 출구에서 지하 연결통로로 신도림테크노마트 8층"
+         width="1200" height="1200" loading="lazy" decoding="async">
+  </picture>
 
   <div class="map-buttons reveal">
     <a class="btn btn--outline" href="{{ site.venue.naver_map }}" target="_blank" rel="noopener">🟢 네이버 지도</a>
