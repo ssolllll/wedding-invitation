@@ -121,8 +121,8 @@ accounts:
 # ------------------------------------------------------------
 guestbook:
   enabled: true
-  firebase_project_id: ""   # 예: my-wedding-12345
-  firebase_api_key: ""      # 예: AIzaSy...
+  firebase_project_id: "my-wedding-invitation-e79a8"
+  firebase_api_key: "AIzaSyD0CJjis3JOjQBce3CS8a3iOTt_nSRICro"
 
 # ------------------------------------------------------------
 # 화면 효과
