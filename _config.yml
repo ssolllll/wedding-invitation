@@ -7,10 +7,10 @@ title: "한솔 💛 미란, 저희 결혼해요!"
 description: "2026년 11월 21일 토요일 낮 12시 10분 · 신도림 웨딩시티 8층 아모르홀에서 만나요 🌼"
 
 # GitHub Pages 배포 설정
-#  - 저장소 이름이 <username>.github.io 라면 → baseurl: ""
-#  - 그 외 저장소 (예: wedding-invitation)  → baseurl: "/wedding-invitation"
-url: "https://ssolllll.github.io"
-baseurl: "/wedding-invitation"
+#  - 개인 도메인(CNAME 파일)을 쓰므로 하위 경로가 없음 → baseurl: ""
+#  - 개인 도메인을 떼면 url: "https://ssolllll.github.io", baseurl: "/wedding-invitation"
+url: "https://www.wedding-hansol-miran.co.kr"
+baseurl: ""
 
 # ------------------------------------------------------------
 # 신랑 · 신부 정보
