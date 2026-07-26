@@ -94,8 +94,8 @@ greeting: |
 accounts:
   groom:
     - holder: 송한솔
-      bank: 국민은행
-      number: "123456-01-234567"
+      bank: 카카오뱅크
+      number: "3333-11-5808377"
     - holder: 송경근 (아버지)
       bank: 신한은행
       number: "110-123-456789"
