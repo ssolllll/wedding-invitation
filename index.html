@@ -56,8 +56,15 @@ layout: default
 
 <!-- ============ 4. 예식 안내 (달력 + D-day) ============ -->
 <section class="section section--mint">
+  <!-- SAVE THE DATE 위 사진 -->
+  <div class="date-photo reveal reveal--fade" data-parallax="0.08">
+    <img class="date-photo__img" src="{{ '/assets/img/save-the-date.jpg' | relative_url }}"
+         alt="{{ site.groom.name }} · {{ site.bride.name }} — {{ site.wedding.date_short }}"
+         width="917" height="1400" loading="lazy" decoding="async">
+  </div>
+
   <p class="section__eyebrow reveal"><span class="sticker">SAVE THE DATE</span></p>
-  <h2 class="section__title reveal">달력에 동그라미 쳐주세요!</h2>
+  <h2 class="section__title reveal">달력에 체크해주세요!</h2>
   <div class="ornament reveal"><span class="wiggle">🗓️</span></div>
 
   <p class="wedding-date reveal">{{ site.wedding.date_display }}</p>
@@ -82,13 +89,13 @@ layout: default
   <h2 class="section__title reveal">우리의 반짝이는 순간들</h2>
   <div class="ornament reveal"><span class="wiggle">✨</span></div>
 
-  <!-- 사진 선정 전: 자리 표시만 (6장) -->
   <div class="gallery">
     {% for i in (1..6) %}
-    <div class="photo-placeholder photo-placeholder--gallery reveal reveal--photo" role="img" aria-label="갤러리 사진 {{ i }} 자리">
-      <span class="photo-placeholder__icon">🌸</span>
-      <span class="photo-placeholder__text">사진 {{ i }}</span>
-    </div>
+    <figure class="gallery-item reveal reveal--photo">
+      <img class="gallery-item__img" src="{{ '/assets/img/gallery/w0' | append: i | append: '.jpg' | relative_url }}"
+           alt="{{ site.groom.name }} · {{ site.bride.name }} 웨딩 사진 {{ i }}"
+           loading="lazy" decoding="async">
+    </figure>
     {% endfor %}
   </div>
 </section>

@@ -5,3 +5,6 @@ _site/
 Gemfile.lock
 vendor/
 .DS_Store
+
+# 피드백/작업용 문서 (배포에 불필요)
+*.docx

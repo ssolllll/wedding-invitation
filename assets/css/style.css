@@ -178,7 +178,7 @@ body {
     #fff;
   background-size: 36px 36px, 36px 36px;
   background-position: 0 0, 18px 18px;
-  border: 2.5px dashed var(--pink);
+  border: 2.5px solid var(--pink);
   border-radius: 20px;
   color: var(--ink-soft);
 }
@@ -217,6 +217,24 @@ body {
 .photo-placeholder--gallery { aspect-ratio: 1 / 1; }
 .photo-placeholder--map { aspect-ratio: 16 / 10; margin: 26px 0 20px; }
 
+/* SAVE THE DATE 위 사진 */
+.date-photo {
+  display: block;
+  max-width: 300px;
+  margin: 0 auto 30px;
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2.5px solid var(--pink);
+}
+
+.date-photo__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* 약도 */
 .map-image {
   display: block;
@@ -233,6 +251,7 @@ body {
 }
 
 .gallery-item {
+  margin: 0;
   aspect-ratio: 1 / 1;
   border-radius: 16px;
   overflow: hidden;
@@ -579,26 +598,18 @@ body {
   z-index: 1;
 }
 
+/* 예식일: 핑크 하트로 표시 (동그라미 + 반지 이모지 대신) */
 .calendar__day--wedding::before {
   content: "";
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 34px;
+  height: 34px;
   background: var(--pink);
+  clip-path: path("M17 32C17 32 2 22.6 2 12.6 2 7.3 6 3.5 10.4 3.5c2.8 0 5.2 1.5 6.6 3.7 1.4-2.2 3.8-3.7 6.6-3.7C28 3.5 32 7.3 32 12.6 32 22.6 17 32 17 32Z");
+  transform: translateY(3px);
   z-index: -1;
-}
-
-.calendar__day--wedding::after {
-  content: "💍";
-  position: absolute;
-  top: -16px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 13px;
-  line-height: 1;
 }
 
 /* 카운트다운 */

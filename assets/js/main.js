@@ -67,7 +67,7 @@
     document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
 
     if (msg) {
-      msg.innerHTML = '우리 결혼식까지 <strong>D-' + days + '</strong> 💕 콩닥콩닥!';
+      msg.innerHTML = '우리 결혼식까지 <strong>D-' + days + '</strong> 💕';
     }
   }
 
