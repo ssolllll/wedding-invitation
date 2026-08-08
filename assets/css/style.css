@@ -711,9 +711,18 @@ body {
   font-family: var(--round);
   font-size: 13px;
   color: var(--ink);
+  word-break: keep-all;
 }
 
-.transport__row dd { font-size: 14px; color: var(--ink); }
+.transport__row dd {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
 
 /* ---------- 9. 마음 전하실 곳 ---------- */
 
