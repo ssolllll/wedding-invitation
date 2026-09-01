@@ -166,6 +166,7 @@
     if (!els.length) return;
 
     var items = [];
+    var MAX_SHIFT = 12; // px
 
     function measure() {
       var scrollY = window.pageYOffset;
@@ -192,6 +193,9 @@
         var top = item.center - item.height / 2 - scrollY;
         if (top > vh + 80 || top + item.height < -80) return;
         var offset = (item.center - scrollY - vh / 2) * -item.speed;
+        // 아래쪽 텍스트와 겹치지 않도록 이동량 제한
+        if (offset > MAX_SHIFT) offset = MAX_SHIFT;
+        if (offset < -MAX_SHIFT) offset = -MAX_SHIFT;
         item.el.style.transform = 'translateY(' + offset.toFixed(1) + 'px)';
       });
     }
