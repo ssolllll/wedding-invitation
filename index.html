@@ -92,9 +92,11 @@ layout: default
   <div class="gallery">
     {% for i in (1..6) %}
     <figure class="gallery-item reveal reveal--photo">
-      <img class="gallery-item__img" src="{{ '/assets/img/gallery/w0' | append: i | append: '.jpg' | relative_url }}"
-           alt="{{ site.groom.name }} · {{ site.bride.name }} 웨딩 사진 {{ i }}"
-           loading="lazy" decoding="async">
+      <button type="button" class="gallery-item__btn" data-lightbox-index="{{ forloop.index0 }}" aria-label="사진 {{ i }} 크게 보기">
+        <img class="gallery-item__img" src="{{ '/assets/img/gallery/w0' | append: i | append: '.jpg' | relative_url }}"
+             alt="{{ site.groom.name }} · {{ site.bride.name }} 웨딩 사진 {{ i }}"
+             loading="lazy" decoding="async">
+      </button>
     </figure>
     {% endfor %}
   </div>
@@ -217,3 +219,14 @@ layout: default
 
 <!-- 복사 완료 토스트 -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- 갤러리 확대 보기 -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기" hidden>
+  <button type="button" class="lightbox__close" data-lightbox-close aria-label="닫기">✕</button>
+  <button type="button" class="lightbox__nav lightbox__nav--prev" data-lightbox-prev aria-label="이전 사진">‹</button>
+  <div class="lightbox__stage" data-lightbox-close>
+    <img class="lightbox__img" id="lightbox-img" src="" alt="">
+  </div>
+  <button type="button" class="lightbox__nav lightbox__nav--next" data-lightbox-next aria-label="다음 사진">›</button>
+  <p class="lightbox__counter" id="lightbox-counter"></p>
+</div>

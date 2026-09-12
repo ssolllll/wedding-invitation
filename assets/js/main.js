@@ -481,6 +481,78 @@
     });
   }
 
+  /* ---------- 갤러리 확대 보기 (라이트박스) ---------- */
+  function initLightbox() {
+    var box = document.getElementById('lightbox');
+    var img = document.getElementById('lightbox-img');
+    var counter = document.getElementById('lightbox-counter');
+    var thumbs = [].slice.call(document.querySelectorAll('[data-lightbox-index]'));
+    if (!box || !img || !thumbs.length) return;
+
+    var photos = thumbs.map(function (btn) {
+      var t = btn.querySelector('img');
+      return { src: t.currentSrc || t.src, alt: t.alt };
+    });
+    var current = 0;
+    var lastFocus = null;
+
+    function show(i) {
+      current = (i + photos.length) % photos.length;
+      img.src = photos[current].src;
+      img.alt = photos[current].alt;
+      counter.textContent = (current + 1) + ' / ' + photos.length;
+    }
+
+    function open(i) {
+      lastFocus = document.activeElement;
+      show(i);
+      box.hidden = false;
+      document.body.classList.add('lightbox-open');
+      requestAnimationFrame(function () { box.classList.add('is-open'); });
+      box.querySelector('.lightbox__close').focus();
+    }
+
+    function close() {
+      box.classList.remove('is-open');
+      document.body.classList.remove('lightbox-open');
+      setTimeout(function () { box.hidden = true; }, 250);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    thumbs.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        open(parseInt(btn.dataset.lightboxIndex, 10) || 0);
+      });
+    });
+
+    box.addEventListener('click', function (e) {
+      if (e.target.closest('[data-lightbox-prev]')) { show(current - 1); return; }
+      if (e.target.closest('[data-lightbox-next]')) { show(current + 1); return; }
+      // 사진 자체가 아닌 배경/닫기 버튼을 눌렀을 때만 닫기
+      if (e.target !== img && e.target.closest('[data-lightbox-close]')) close();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (box.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(current - 1);
+      else if (e.key === 'ArrowRight') show(current + 1);
+    });
+
+    // 스와이프로 넘기기
+    var touchX = null;
+    box.addEventListener('touchstart', function (e) {
+      touchX = e.touches[0].clientX;
+    }, { passive: true });
+    box.addEventListener('touchend', function (e) {
+      if (touchX === null) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      touchX = null;
+      if (Math.abs(dx) < 40) return;
+      show(dx < 0 ? current + 1 : current - 1);
+    }, { passive: true });
+  }
+
   /* ---------- 초기화 ---------- */
   renderCalendar();
   updateCountdown();
@@ -488,4 +560,5 @@
   initFallingPetals();
   initGuestbook();
   initHeartPop();
+  initLightbox();
 })();
