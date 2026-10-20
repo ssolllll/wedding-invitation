@@ -195,6 +195,9 @@ layout: default
            placeholder="이름" maxlength="20" required autocomplete="name">
     <textarea class="guestbook-form__message" id="gb-message" rows="3"
               placeholder="따뜻한 축하 메시지를 남겨주세요 (최대 500자)" maxlength="500" required></textarea>
+    <!-- 봇 유인용 필드(허니팟) — 사람에게는 보이지 않으며, 채워져 있으면 저장하지 않음 -->
+    <input class="guestbook-form__trap" id="gb-website" type="text" name="website"
+           tabindex="-1" autocomplete="off" aria-hidden="true">
     <button class="btn btn--solid" type="submit" id="gb-submit">💌 마음 남기기</button>
   </form>
 

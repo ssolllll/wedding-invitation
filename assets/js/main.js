@@ -314,6 +314,7 @@
     var useFirebase = !!(projectId && apiKey);
 
     var form = document.getElementById('gb-form');
+    var trapInput = document.getElementById('gb-website');
     var nameInput = document.getElementById('gb-name');
     var msgInput = document.getElementById('gb-message');
     var submitBtn = document.getElementById('gb-submit');
@@ -325,6 +326,8 @@
 
     var FIRESTORE_BASE = 'https://firestore.googleapis.com/v1/projects/' + projectId + '/databases/(default)/documents';
     var DEMO_KEY = 'wedding-guestbook-demo';
+    var GUARD_KEY = 'wedding-guestbook-last';
+    var COOLDOWN_MS = 30 * 1000; // 같은 기기에서 연속 작성 최소 간격
 
     /* --- 저장소 어댑터: Firestore REST ↔ localStorage --- */
     function fetchEntries() {
@@ -434,12 +437,38 @@
       });
     }
 
+    /* --- 제출 가드 (봇·도배 완화) --- */
+    function readGuard() {
+      try { return JSON.parse(localStorage.getItem(GUARD_KEY)) || {}; } catch (e) { return {}; }
+    }
+
+    function writeGuard(message) {
+      try {
+        localStorage.setItem(GUARD_KEY, JSON.stringify({ at: Date.now(), message: message }));
+      } catch (e) {}
+    }
+
     /* --- 등록 --- */
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+
+      // 허니팟이 채워졌다면 봇 — 조용히 무시
+      if (trapInput && trapInput.value) return;
+
       var name = nameInput.value.trim();
       var message = msgInput.value.trim();
       if (!name || !message) return;
+
+      var guard = readGuard();
+      if (guard.at && Date.now() - guard.at < COOLDOWN_MS) {
+        var wait = Math.ceil((COOLDOWN_MS - (Date.now() - guard.at)) / 1000);
+        showToast(wait + '초 후에 다시 남겨주세요');
+        return;
+      }
+      if (guard.message && guard.message === message) {
+        showToast('이미 같은 메시지를 남기셨어요 💛');
+        return;
+      }
 
       submitBtn.disabled = true;
       submitBtn.textContent = '남기는 중...';
@@ -447,6 +476,7 @@
       var entry = { name: name, message: message, createdAt: new Date().toISOString() };
 
       saveEntry(entry).then(function () {
+        writeGuard(message);
         nameInput.value = '';
         msgInput.value = '';
         showToast('소중한 마음이 전달되었어요 💛');

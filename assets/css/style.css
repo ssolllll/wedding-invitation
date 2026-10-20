@@ -972,6 +972,16 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
+/* 허니팟: 화면에서 감추되 display:none은 피함 (일부 봇이 무시) */
+.guestbook-form__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ---------- 꽃잎 떨어지는 효과 ---------- */
 
 .petals-canvas {
