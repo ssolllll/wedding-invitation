@@ -89,6 +89,28 @@ guestbook:
 > 실제 보안은 위의 Firestore 규칙이 담당합니다 — 이름/메시지 형식의 문서 생성과 읽기만 허용됩니다.
 > 부적절한 메시지는 Firebase 콘솔 → Firestore → `guestbook` 컬렉션에서 직접 삭제할 수 있습니다.
 
+### 방명록 운영 주의사항
+
+- **스팸 방지**: 규칙은 메시지 형식만 검증하고 작성 횟수는 제한하지 않습니다. 도배가 걱정되면
+  Firebase 콘솔에서 **App Check(reCAPTCHA v3)** 를 켜세요. 규칙상 `update`/`delete`가 막혀 있어
+  한번 저장된 메시지는 Firebase 콘솔에서만 삭제할 수 있습니다.
+- **무료 한도**: Firestore 무료 플랜은 쓰기 2만 건/일입니다. 초과하면 그날은 메시지가 저장되지 않습니다.
+- **예식 후**: `_config.yml`의 `guestbook.enabled: false`로 방명록을 닫을 수 있습니다.
+- 목록 정렬은 서버가 부여하는 `createTime`을 사용합니다. 문서의 `createdAt` 필드는 클라이언트가
+  보낸 값이라 신뢰하지 않습니다.
+
+### 공개 저장소에 올리면 안 되는 것
+
+이 저장소는 GitHub Pages 배포를 위해 **공개(public)** 입니다. 저장소에 넣는 모든 파일은
+누구나 볼 수 있으니 아래는 커밋하지 마세요.
+
+- 휴대폰 번호 등 사이트에 표시되지 않는 개인정보 (`_config.yml`에 두지 마세요)
+- DNS·도메인 관리 화면 스크린샷
+- 하객 명단, 정산 자료 등 작업용 문서 (`*.docx`는 `.gitignore` 처리됨)
+
+계좌번호와 실명은 청첩장 성격상 사이트에 공개되지만, 검색엔진에는 노출되지 않도록
+`_layouts/default.html`에 `noindex` 설정이 들어 있습니다.
+
 ## GitHub Pages 배포
 
 1. GitHub에 새 저장소를 만듭니다. (예: `wedding-invitation`)

@@ -333,14 +333,15 @@
         try { saved = JSON.parse(localStorage.getItem(DEMO_KEY)) || []; } catch (e) {}
         return Promise.resolve(saved);
       }
+      // 정렬은 클라이언트가 보낸 createdAt이 아니라 서버가 부여하는 createTime 기준
+      // (createdAt은 위조 가능 → 미래 날짜로 목록 상단 고정을 막기 위함)
       return fetch(FIRESTORE_BASE + ':runQuery?key=' + apiKey, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           structuredQuery: {
             from: [{ collectionId: 'guestbook' }],
-            orderBy: [{ field: { fieldPath: 'createdAt' }, direction: 'DESCENDING' }],
-            limit: 100
+            limit: 300
           }
         })
       }).then(function (res) {
@@ -354,8 +355,11 @@
             return {
               name: (f.name && f.name.stringValue) || '',
               message: (f.message && f.message.stringValue) || '',
-              createdAt: (f.createdAt && f.createdAt.timestampValue) || r.document.createTime
+              createdAt: r.document.createTime
             };
+          })
+          .sort(function (a, b) {
+            return new Date(b.createdAt) - new Date(a.createdAt);
           });
       });
     }
